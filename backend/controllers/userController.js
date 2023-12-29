@@ -1,4 +1,3 @@
-const { response } = require("express");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
@@ -105,4 +104,29 @@ const deleteUser = async (req, res, next) => {
   return res.status(201).send({ response, message: "Deleted successfuly" });
 };
 
-module.exports = { getAllUsers, createUser, updateUser, deleteUser };
+const loginUser = async (req, res, next) => {
+  let response;
+  const { email, password } = req.body;
+  try {
+    if (!email || email.trim() === "" || !password || password.trim() === "") {
+      return res.status(422).send({ message: "Please input valid data!" });
+    }
+
+    response = await User.findOne({ email: email });
+  } catch (error) {
+    return res.status(422).send({ message: " something went wrong!" });
+  }
+
+  if (!response) {
+    return res.status(404).send({ message: "User not found" });
+  }
+
+  isPasswordsValid = bcrypt.compareSync(password, response.password);
+
+  if (!isPasswordsValid) {
+    return res.status(404).send({ message: "password is incorrect" });
+  }
+  return res.status(201).send({ response, message: "login successfuly" });
+};
+
+module.exports = { getAllUsers, createUser, updateUser, deleteUser, loginUser };

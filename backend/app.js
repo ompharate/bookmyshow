@@ -3,9 +3,14 @@ const mongoose = require("mongoose");
 const app = express();
 const dotenv = require("dotenv");
 const userRouter = require("./routes/userRoutes");
+const adminRouter = require("./routes/adminRoutes");
+const movieRouter = require("./routes/movieRouter");
 dotenv.config();
 app.use(express.json());
+
 app.use("/user", userRouter);
+app.use("/admin", adminRouter);
+app.use("/movie",movieRouter);
 
 mongoose
   .connect(
