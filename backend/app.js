@@ -4,13 +4,19 @@ const app = express();
 const dotenv = require("dotenv");
 const userRouter = require("./routes/userRoutes");
 const adminRouter = require("./routes/adminRoutes");
+const cookieParser = require("cookie-parser");
 const movieRouter = require("./routes/movieRouter");
+const cors = require("cors");
+const bookingRouter = require("./routes/bookingRoutes");
 dotenv.config();
+app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 app.use("/movie",movieRouter);
+app.use("/booking",bookingRouter);
 
 mongoose
   .connect(

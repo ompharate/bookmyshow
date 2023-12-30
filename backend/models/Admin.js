@@ -12,10 +12,10 @@ const adminSchema = new mongoose.Schema({
     minLength: 6,
   },
 
-  addedMovies: {
+  addedMovies: [{
     type: mongoose.Types.ObjectId,
-    ref: "Movies",
-  },
+    ref: "Movie",
+  }],
 });
 
-module.exports = mongoose.model("admin", adminSchema);
+module.exports = mongoose.model("Admin", adminSchema);
